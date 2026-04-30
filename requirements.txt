@@ -4,3 +4,7 @@ openpyxl
 plotly
 streamlit
 scipy
+fastapi
+uvicorn
+python-multipart
+pydantic
