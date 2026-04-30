@@ -51,8 +51,21 @@ def _normalizar_texto_serie(serie: pd.Series) -> pd.Series:
 def carregar_dados(filepath: Path = ARQUIVO_DADOS) -> pd.DataFrame:
     """Carrega planilha e retorna DataFrame normalizado para analise."""
     if not filepath.exists():
-        alt = Path("../parametro.xlsx")
-        filepath = alt if alt.exists() else filepath
+        # Em deploy (ex.: Vercel), o arquivo pode estar na raiz do projeto.
+        candidatos = [
+            Path("parametro.xlsx"),
+            Path("../parametro.xlsx"),
+            Path("./parametro.xlsx"),
+        ]
+        for alt in candidatos:
+            if alt.exists():
+                filepath = alt
+                break
+
+    if not filepath.exists():
+        raise FileNotFoundError(
+            "Arquivo de dados não encontrado. Esperado em 'data/parametro.xlsx' ou 'parametro.xlsx' na raiz do projeto."
+        )
 
     # Cache em disco: reduz drasticamente o tempo de carga após a 1ª vez
     try:

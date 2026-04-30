@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  },
   "installCommand": "if [ -f frontend/package.json ]; then npm install --prefix frontend; else npm install; fi",
   "buildCommand": "if [ -f frontend/package.json ]; then npm run build --prefix frontend && rm -rf dist && cp -r frontend/dist dist; else npm run build; fi",
   "outputDirectory": "dist",
