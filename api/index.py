@@ -17,7 +17,13 @@ async def app(scope, receive, send):
     """
     if scope.get("type") == "http":
         path = scope.get("path", "")
+        # Rewrite /api/index.py/<path> -> /api/<path>
+        if path.startswith("/api/index.py/"):
+            path = "/api/" + path[len("/api/index.py/") :]
+        elif path == "/api/index.py":
+            path = "/api/health"
         if not path.startswith("/api"):
-            scope = {**scope, "path": f"/api{path}"}
+            path = f"/api{path}"
+        scope = {**scope, "path": path}
     await fastapi_app(scope, receive, send)
 
