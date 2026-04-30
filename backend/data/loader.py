@@ -11,9 +11,10 @@ import pandas as pd
 
 logger = logging.getLogger(__name__)
 
-ARQUIVO_DADOS = Path("data/parametro.xlsx")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+ARQUIVO_DADOS = PROJECT_ROOT / "data" / "parametro.xlsx"
 ABA_DADOS = "VW_ORDEM_SERVICO_SAF_PCM"
-CACHE_PICKLE = Path("data/_cache_pcm.pkl.gz")
+CACHE_PICKLE = PROJECT_ROOT / "data" / "_cache_pcm.pkl.gz"
 
 FALHAS_CORRETIVAS_REAIS = [
     "FALHA MECANICA",
@@ -53,9 +54,10 @@ def carregar_dados(filepath: Path = ARQUIVO_DADOS) -> pd.DataFrame:
     if not filepath.exists():
         # Em deploy (ex.: Vercel), o arquivo pode estar na raiz do projeto.
         candidatos = [
+            PROJECT_ROOT / "parametro.xlsx",
+            PROJECT_ROOT / "data" / "parametro.xlsx",
             Path("parametro.xlsx"),
-            Path("../parametro.xlsx"),
-            Path("./parametro.xlsx"),
+            Path("data/parametro.xlsx"),
         ]
         for alt in candidatos:
             if alt.exists():

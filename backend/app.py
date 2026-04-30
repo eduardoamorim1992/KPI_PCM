@@ -48,7 +48,11 @@ app.add_middleware(
 
 @lru_cache(maxsize=1)
 def get_dados():
-    return carregar_dados()
+    try:
+        return carregar_dados()
+    except FileNotFoundError as exc:
+        # Erro comum em deploy: arquivo Excel não incluído no build.
+        raise HTTPException(500, str(exc)) from exc
 
 
 @app.get("/api/dashboard/resumo")
@@ -444,10 +448,6 @@ def analitico_overview(grupo: str = Query(None), unidade: str = Query(None), fro
 @app.get("/health")
 @app.get("/api/health")
 def health_check():
-    df = get_dados()
-    return {
-        "status": "ok",
-        "total_registros": int(len(df)),
-        "periodo_inicio": df["dt_entrada"].min().isoformat(),
-        "periodo_fim": df["dt_entrada"].max().isoformat(),
-    }
+    # Não carregar o Excel aqui: em serverless pode estourar timeout/memória
+    # e mascara o erro real. Health valida apenas que o processo subiu.
+    return {"status": "ok"}
