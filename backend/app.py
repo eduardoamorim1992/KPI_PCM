@@ -441,6 +441,7 @@ def analitico_overview(grupo: str = Query(None), unidade: str = Query(None), fro
     }
 
 
+@app.get("/health")
 @app.get("/api/health")
 def health_check():
     df = get_dados()
