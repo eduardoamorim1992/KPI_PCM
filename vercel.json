@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "installCommand": "if [ -f frontend/package.json ]; then npm install --prefix frontend; else npm install; fi",
-  "buildCommand": "if [ -f frontend/package.json ]; then npm run build --prefix frontend && rm -rf dist && cp -r frontend/dist dist; else npm run build; fi",
+  "installCommand": "python -m pip install -r backend/requirements.txt && npm install --prefix frontend",
+  "buildCommand": "npm run build --prefix frontend && rm -rf dist && cp -r frontend/dist dist",
   "outputDirectory": "dist",
   "rewrites": [
     {
