@@ -2,15 +2,11 @@ import { useMemo, useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import Frota from "./pages/Frota";
 import Analitico from "./pages/Analitico";
-import Confiabilidade from "./pages/Confiabilidade";
-import MonteCarlo from "./pages/MonteCarlo";
 
 const pages = {
   dashboard: { label: "Dashboard", Component: Dashboard },
   frota: { label: "Frota", Component: Frota },
   analitico: { label: "Analítico", Component: Analitico },
-  confiabilidade: { label: "Confiabilidade", Component: Confiabilidade },
-  montecarlo: { label: "Monte Carlo", Component: MonteCarlo },
 };
 
 function App() {
